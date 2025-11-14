@@ -1,6 +1,6 @@
 # MobileDartsApp
 
-Here are all the used icons with their creatorsn and source link
+Here are all the used icons with their creators and source link
 
 notready.png
 Készítő: Fathema Khanom
