@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileDartsApp.Views.OnlineGamePage"
+             Title="Online meccs"
+             Shell.TabBarIsVisible="False"
+             Shell.BackgroundColor="{DynamicResource MyBlue}"
+             Shell.TitleColor="{DynamicResource MyOrange}"
+             Shell.ForegroundColor="{DynamicResource MyOrange}">
+    
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding ForfeitCommand}" />
+    </Shell.BackButtonBehavior>
+
+    <Grid RowDefinitions="3*,5*" ColumnDefinitions="1*" RowSpacing="5">
+        <Grid Grid.Row="0" Grid.Column="0"
+              RowDefinitions="2*,1*,auto,1*,1*"
+              ColumnDefinitions="1*,1*"
+              BackgroundColor="{StaticResource MyBlue}">
+
+            <Label Text="{Binding CurrentScore}" FontSize="64"
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="{Binding PlayerName}" FontSize="24"
+                   HorizontalOptions="Center"
+                   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+            <BoxView WidthRequest="250" Color="AliceBlue" VerticalOptions="Center"
+                     HeightRequest="2"
+                     Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+            <Label Text="{Binding OpponentName, StringFormat='Ellenfél: {0}'}"
+                   Grid.Row="3" Grid.Column="0"
+                   FontSize="14"
+                   HorizontalOptions="Start"
+                   Padding="10" />
+
+            <Label Text="{Binding OpponentScore, StringFormat='Pont: {0}'}"
+                   Grid.Row="3" Grid.Column="1"
+                   FontSize="14"
+                   HorizontalOptions="End"
+                   Padding="10" />
+
+            <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                    BackgroundColor="{StaticResource MyDeepDarkBlue}"
+                    StrokeThickness="2">
+                <Label Text="{Binding InsertedScore}" FontSize="28" Padding="5"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="{StaticResource MyLightBlue}" />
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0"
+              ColumnDefinitions="1*,1*,1*"
+              RowDefinitions="1*,1*,1*,1*,1*,1*"
+              ColumnSpacing="5" RowSpacing="5">
+
+            <Button Text="180" Grid.Row="0" Grid.Column="2" Command="{Binding InsertNumber}" CommandParameter="180"/>
+            <Button Text="100" Grid.Row="0" Grid.Column="1" Command="{Binding InsertNumber}" CommandParameter="100"/>
+            <Button Text="60"  Grid.Row="0" Grid.Column="0" Command="{Binding InsertNumber}" CommandParameter="60"/>
+
+            <Button Text="26" Grid.Row="1" Grid.Column="0" Command="{Binding InsertNumber}" CommandParameter="26"/>
+            <Button Text="41" Grid.Row="1" Grid.Column="1" Command="{Binding InsertNumber}" CommandParameter="41"/>
+            <Button Text="45" Grid.Row="1" Grid.Column="2" Command="{Binding InsertNumber}" CommandParameter="45"/>
+
+            <Button Text="1" Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource MyBlue}" Command="{Binding InsertNumber}" CommandParameter="1"/>
+            <Button Text="2" Grid.Row="2" Grid.Column="1" BackgroundColor="{StaticResource MyBlue}" Command="{Binding InsertNumber}" CommandParameter="2"/>
+            <Button Text="3" Grid.Row="2" Grid.Column="2" BackgroundColor="{StaticResource MyBlue}" Command="{Binding InsertNumber}" CommandParameter="3"/>
+
+            <Button Text="4" Grid.Row="3" Grid.Column="0" BackgroundColor="{StaticResource MyBlue}" Command="{Binding InsertNumber}" CommandParameter="4"/>
+            <Button Text="5" Grid.Row="3" Grid.Column="1" BackgroundColor="{StaticResource MyBlue}" Command="{Binding InsertNumber}" CommandParameter="5"/>
+            <Button Text="6" Grid.Row="3" Grid.Column="2" BackgroundColor="{StaticResource MyBlue}" Command="{Binding InsertNumber}" CommandParameter="6"/>
+
+            <Button Text="7" Grid.Row="4" Grid.Column="0" BackgroundColor="{StaticResource MyBlue}" Command="{Binding InsertNumber}" CommandParameter="7"/>
+            <Button Text="8" Grid.Row="4" Grid.Column="1" BackgroundColor="{StaticResource MyBlue}" Command="{Binding InsertNumber}" CommandParameter="8"/>
+            <Button Text="9" Grid.Row="4" Grid.Column="2" BackgroundColor="{StaticResource MyBlue}" Command="{Binding InsertNumber}" CommandParameter="9"/>
+
+            <Button Text="Back" FontSize="18" Grid.Row="5" Grid.Column="0"
+                    BackgroundColor="#c1121f" TextColor="White"
+                    Command="{Binding Backspace}"/>
+            <Button Text="0" Grid.Row="5" Grid.Column="1" BackgroundColor="Grey"
+                    Command="{Binding InsertNumber}" CommandParameter="0"/>
+            <Button Text="OK" FontSize="18" Grid.Row="5" Grid.Column="2"
+                    BackgroundColor="#06d6a0" TextColor="White"
+                    Command="{Binding OkPressed}"
+                    IsEnabled="{Binding IsMyTurn}"/>
+        </Grid>
+    </Grid>
+</ContentPage>

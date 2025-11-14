@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:MobileDartsApp.Converters"
+             xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
+             x:Class="MobileDartsApp.Views.LobbySelectorPage"
+             Title="Online szobák"
+             Shell.BackgroundColor="{DynamicResource MyDarkBlue}"
+             Shell.TitleColor="{DynamicResource MyOrange}"
+             Shell.ForegroundColor="{DynamicResource MyOrange}">
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="{DynamicResource MyDarkBlue}" Offset="0"/>
+            <GradientStop Color="{DynamicResource MyBlue}" Offset="1"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    
+    <ContentPage.Resources>
+        <converters:BoolToBoolConverter x:Key="BoolToBoolConverter" />
+
+        <Style x:Key="HeroTitleStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="{DynamicResource MyOrange}" />
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+
+        <Style x:Key="HeroSubtitleStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="Opacity" Value="0.9" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="Padding" Value="14,12" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="Black" Opacity="0.2" Radius="12" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#8E2DE2" Offset="0" />
+                        <GradientStop Color="#4A00E0" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Transparent"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TextColor" Value="{DynamicResource MyOrange}" />
+            <Setter Property="BorderColor" Value="{DynamicResource MyOrange}" />
+            <Setter Property="BorderWidth" Value="2" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Opacity="0" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CardFrameStyle" TargetType="Frame">
+            <Setter Property="Padding" Value="14" />
+            <Setter Property="Margin" Value="12,8" />
+            <Setter Property="CornerRadius" Value="18" />
+            <Setter Property="HasShadow" Value="True" />
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="Black" Radius="10" Opacity="0.1" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ItemTitleStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="{DynamicResource MyDarkBlue}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+
+        <Style x:Key="ItemSubtitleStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="#667084" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+
+        <Style x:Key="SmallActionButtonStyle" TargetType="Button">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#4A00E0" Offset="0" />
+                        <GradientStop Color="#8E2DE2" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="EmptyStateBorderStyle" TargetType="Border">
+            <Setter Property="Stroke" Value="{DynamicResource MyDarkBlue}" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="StrokeShape">
+                <Setter.Value>
+                    <shapes:RoundRectangle CornerRadius="20"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource MyLightBlue}" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="Opacity" Value="0.95" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <Grid Grid.Row="0" Padding="12,10" BackgroundColor="{DynamicResource MyDarkBlue}">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Online szobák" Style="{StaticResource HeroTitleStyle}" 
+                            IsVisible="{Binding IsConnected}"/>
+                <Label Text="Válassz szobát, vagy hozz létre egyet."
+                            IsVisible="{Binding IsConnected}"
+                       Style="{StaticResource HeroSubtitleStyle}" />
+                <Button Grid.Column="0"
+                            Text="Készíts új szobát"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{Binding CreateLobbyCommand}"
+                            IsVisible="{Binding IsConnected}"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource BoolToBoolConverter}}" />
+
+                <Label Text="Csatlakozás" Style="{StaticResource HeroTitleStyle}" 
+                            IsVisible="{Binding IsConnected, Converter={StaticResource BoolToBoolConverter}}"/>
+                <Label Text="Csatlakozz a szerverhez hogy létre tudj hozni szobát"
+                       Style="{StaticResource HeroSubtitleStyle}" 
+                            IsVisible="{Binding IsConnected, Converter={StaticResource BoolToBoolConverter}}"/>
+                <Button Grid.Column="0"
+                            Text="Csatlakozás"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding ConnectToSignalRServer}"
+                            IsVisible="{Binding IsConnected, Converter={StaticResource BoolToBoolConverter}}"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource BoolToBoolConverter}}" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}">
+            <CollectionView ItemsSource="{Binding Lobbies}"
+                            SelectionMode="None"
+                            Margin="10,8"
+                            ItemsLayout="VerticalList">
+                <CollectionView.EmptyView>
+                    <Grid Padding="24" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Border Style="{StaticResource EmptyStateBorderStyle}">
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Label Text="Nincs elérhető szoba"
+                                       TextColor="{DynamicResource MyDarkBlue}"
+                                       FontAttributes="Bold"
+                                       FontSize="16"
+                                       HorizontalTextAlignment="Center"/>
+                                <Label Text="Hozz létre egy újat, vagy húzd le a frissítéshez."
+                                       TextColor="{DynamicResource MyDarkBlue}"
+                                       Opacity="0.8"
+                                       FontSize="13"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Style="{StaticResource CardFrameStyle}">
+                            <Grid ColumnDefinitions="Auto,*,Auto"
+                                  RowDefinitions="Auto,Auto"
+                                  ColumnSpacing="12">
+                                <Label Grid.Column="1" Grid.Row="0"
+                                       Text="{Binding LobbyTitle}"
+                                       Style="{StaticResource ItemTitleStyle}" />
+                                <Label Grid.Column="1" Grid.Row="1"
+                                       Text="{Binding LobbyCreator}"
+                                       Style="{StaticResource ItemSubtitleStyle}" />
+
+                                <Button Grid.Column="2" Grid.RowSpan="2"
+                                        Text="Belépés"
+                                        Style="{StaticResource SmallActionButtonStyle}"
+                                        VerticalOptions="Center"
+                                        Command="{Binding BindingContext.JoinLobbyCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding}"
+                                        IsEnabled="{Binding BindingContext.IsBusy, Source={RelativeSource AncestorType={x:Type ContentPage}}, Converter={StaticResource BoolToBoolConverter}}"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <Grid Grid.RowSpan="2"
+              IsVisible="{Binding IsBusy}"
+              BackgroundColor="#80000000">
+            <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                <Border BackgroundColor="White"
+                        StrokeThickness="0"
+                        Padding="20"
+                        WidthRequest="240">
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Radius="18" Opacity="0.2"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="12">
+                        <ActivityIndicator IsRunning="True" Color="{DynamicResource MyDarkBlue}" />
+                        <Label Text="Csatlakozás a szerverhez…"
+                               TextColor="{DynamicResource MyDarkBlue}"
+                               HorizontalTextAlignment="Center"
+                               FontAttributes="Bold"/>
+                        <Label Text="Ez pár másodpercet igénybe vehet."
+                               TextColor="{DynamicResource MyDarkBlue}"
+                               Opacity="0.7"
+                               FontSize="12"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

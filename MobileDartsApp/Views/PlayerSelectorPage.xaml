@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MobileDartsApp.ViewModels"
+             xmlns:m="clr-namespace:MobileDartsApp.Models"
+             x:Class="MobileDartsApp.Views.PlayerSelectorPage"
+             x:DataType="vm:PlayerSelectorViewModel"
+             Title="Játékosok"
+             Shell.NavBarIsVisible="True"
+             Shell.BackgroundColor="{DynamicResource MyDarkBlue}"
+             Shell.TitleColor="{DynamicResource MyOrange}"
+             Shell.ForegroundColor="{DynamicResource MyOrange}"
+             BackgroundColor="{DynamicResource MyDarkBlue}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="plus.png"
+                     Text="Új"
+                     Order="Primary"
+                     Priority="0"
+                     Command="{Binding CreatePlayerExecute}"
+                     AutomationProperties.Name="Játékos hozzáadása" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <Style x:Key="H1" TargetType="Label">
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="{DynamicResource MyOrange}"/>
+        </Style>
+        <Style x:Key="Hint" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextColor" Value="#CCFFFFFF"/>
+        </Style>
+
+        <Style x:Key="Card" TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="{DynamicResource MyLightBlue}"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HasShadow" Value="True"/>
+            <Setter Property="BorderColor" Value="Transparent"/>
+        </Style>
+
+        <Style x:Key="SearchInput" TargetType="SearchBar">
+            <Setter Property="BackgroundColor" Value="{DynamicResource MyLightBlue}"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="TextColor" Value="{DynamicResource MyOrange}"/>
+            <Setter Property="PlaceholderColor" Value="#90FFFFFF"/>
+            <Setter Property="CancelButtonColor" Value="{DynamicResource MyOrange}"/>
+            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="Margin" Value="8,6"/>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="SeaGreen"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="HeightRequest" Value="58"/>
+            <Setter Property="Padding" Value="16,12"/>
+        </Style>
+
+        <Style x:Key="PlayerRow" TargetType="Grid">
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="ColumnDefinitions" Value="auto,*,auto"/>
+            <Setter Property="ColumnSpacing" Value="12"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="auto, auto, *, auto" Padding="10" RowSpacing="14">
+        <VerticalStackLayout Grid.Row="0" Spacing="4">
+            <Label Text="Válassz játékosokat" Style="{StaticResource H1}"/>
+            <Label Text="Keress névre, jelölj ki több játékost, balra húzva törölhetsz." Style="{StaticResource Hint}"/>
+        </VerticalStackLayout>
+
+        <Frame Padding="0" Grid.Row="1" Grid.Column="1" BackgroundColor="{StaticResource MyDarkBlue}" CornerRadius="30" BorderColor="Transparent">
+            <SearchBar Style="{StaticResource SearchInput}"
+                           Placeholder="Játékos neve..."
+                           Text="{Binding FilterText, Mode=TwoWay}"
+                        Margin="0"/>
+        </Frame>
+
+        <Frame Grid.Row="2" Style="{StaticResource Card}">
+            <CollectionView ItemsSource="{Binding FilteredPlayers}"
+                            SelectionMode="Multiple"
+                            SelectedItems="{Binding SelectedPlayers, Mode=TwoWay}"
+                            BackgroundColor="Transparent"
+                            Margin="0">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:PlayerModel">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItem Text="Törlés"
+                                               BackgroundColor="PaleVioletRed"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PlayerSelectorViewModel}}, Path=DeletePlayerExecute}"
+                                               CommandParameter="{Binding .}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <Grid Style="{StaticResource PlayerRow}">
+                                <Frame Grid.Column="0" WidthRequest="56" HeightRequest="56" CornerRadius="28"
+                                       HasShadow="False" Padding="0" BorderColor="#20FFFFFF" BackgroundColor="#20FFFFFF">
+                                    <Image Source="{Binding PictureSource}"
+                                           WidthRequest="56" HeightRequest="56" Aspect="AspectFill"/>
+                                </Frame>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding Name}" FontSize="20" TextColor="White"/>
+                                    <Label Text="Koppints a kijelöléshez" FontSize="12" TextColor="#B3FFFFFF"/>
+                                </VerticalStackLayout>
+
+                                <Grid Grid.Column="2" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" HorizontalOptions="End">
+                                    <Image Source="check_circle.png" Opacity="0">
+                                        <Image.Triggers>
+                                            <DataTrigger TargetType="Image"
+                                                        Binding="{Binding Source={RelativeSource AncestorType={x:Type Grid}}, Path=VisualStateManager.VisualStateGroups[0].CurrentState.Name}"
+                                                        Value="Selected">
+                                                <Setter Property="Opacity" Value="1"/>
+                                            </DataTrigger>
+                                        </Image.Triggers>
+                                    </Image>
+                                </Grid>
+                            </Grid>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Frame>
+
+        <Grid Grid.Row="3">
+            <Button Text="Tovább"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding ContinueExecute}"
+                    SemanticProperties.Hint="Folytatás a kiválasztott játékosokkal"/>
+        </Grid>
+    </Grid>
+</ContentPage>

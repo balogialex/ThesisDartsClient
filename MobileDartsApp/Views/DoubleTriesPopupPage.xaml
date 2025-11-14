@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    xmlns:vm="clr-namespace:MobileDartsApp.ViewModels"
+    x:Class="MobileDartsApp.DoubleTriesPopupPage"
+    CloseWhenBackgroundIsClicked="False">
+
+    <mopups:PopupPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="PopupContainerGridStyle" TargetType="Grid">
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="PopupFrameStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="HasShadow" Value="True"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="PopupStackStyle" TargetType="VerticalStackLayout">
+                <Setter Property="Padding" Value="20"/>
+                <Setter Property="Spacing" Value="15"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource MyBlue}"/>
+            </Style>
+
+            <Style x:Key="PopupTitleLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource MyOrange}"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="PopupOptionsRowStyle" TargetType="HorizontalStackLayout">
+                <Setter Property="Spacing" Value="10"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="PopupChoiceButtonStyle" TargetType="Button">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource MyDarkBlue}"/>
+                <Setter Property="TextColor" Value="{StaticResource MyOrange}"/>
+                <Setter Property="CornerRadius" Value="15"/>
+                <Setter Property="WidthRequest" Value="50"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="Padding" Value="0"/>
+                <Style.Triggers>
+                    <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+        </ResourceDictionary>
+    </mopups:PopupPage.Resources>
+
+    <Grid Style="{StaticResource PopupContainerGridStyle}">
+        <Frame Style="{StaticResource PopupFrameStyle}">
+            <VerticalStackLayout Style="{StaticResource PopupStackStyle}">
+                <Label
+                    Style="{StaticResource PopupTitleLabelStyle}"
+                    Text="Hány nyilat dobtál duplára?"
+                    Padding="0,10,0,20" />
+
+                <HorizontalStackLayout Style="{StaticResource PopupOptionsRowStyle}">
+                    <Button Style="{StaticResource PopupChoiceButtonStyle}"
+                            Text="0"
+                            Command="{Binding SelectDoubleCommand}"
+                            CommandParameter="0"
+                            IsEnabled="{Binding DoubleTry0IsPossible}" />
+                    <Button Style="{StaticResource PopupChoiceButtonStyle}"
+                            Text="1"
+                            Command="{Binding SelectDoubleCommand}"
+                            CommandParameter="1"
+                            IsEnabled="{Binding DoubleTry1IsPossible}" />
+                    <Button Style="{StaticResource PopupChoiceButtonStyle}"
+                            Text="2"
+                            Command="{Binding SelectDoubleCommand}"
+                            CommandParameter="2"
+                            IsEnabled="{Binding DoubleTry2IsPossible}" />
+                    <Button Style="{StaticResource PopupChoiceButtonStyle}"
+                            Text="3"
+                            Command="{Binding SelectDoubleCommand}"
+                            CommandParameter="3"
+                            IsEnabled="{Binding DoubleTry3IsPossible}" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</mopups:PopupPage>

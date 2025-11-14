@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MobileDartsApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MobileDartsApp"
+    xmlns:views="clr-namespace:MobileDartsApp.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="MobileDartsApp">
+
+    <TabBar>
+        <Tab Title="Lokális játék" Icon="playicon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:PlayerSelectorPage}" />
+        </Tab>
+
+        <Tab Title="Online játék" Icon="onlineicon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:LobbySelectorPage}" />
+        </Tab>
+
+        <Tab Title="Statisztikák" Icon="statisticsicon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:GameSelectorPage}" />
+        </Tab>
+
+        <Tab Title="Profil" Icon="profileicon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}" />
+        </Tab>
+    </TabBar>
+    
+</Shell>
