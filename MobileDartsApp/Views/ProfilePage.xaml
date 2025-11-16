@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileDartsApp.Views.ProfilePage"
+             Title="Profil"
+             BackgroundColor="{StaticResource MyDarkBlue}"
+             Shell.BackgroundColor="{StaticResource MyDarkBlue}"
+             Shell.ForegroundColor="{StaticResource MyOrange}"
+             Shell.TitleColor="{StaticResource MyOrange}">
+
+    <ContentPage.Resources>
+        <Style x:Key="SectionTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="TextColor" Value="{StaticResource MyOrange}" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+        <Style x:Key="MetaLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+        <Style x:Key="FieldLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="TextColor" Value="{StaticResource MyYellow}" />
+        </Style>
+
+        <Style x:Key="CardFrame" TargetType="Frame">
+            <Setter Property="CornerRadius" Value="18" />
+            <Setter Property="Padding" Value="20" />
+            <Setter Property="Margin" Value="0,12" />
+            <Setter Property="BackgroundColor" Value="{StaticResource MyBlue}" />
+            <Setter Property="HasShadow" Value="True" />
+        </Style>
+
+        <Style x:Key="TextEntry" TargetType="Entry">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+            <Setter Property="HeightRequest" Value="48" />
+            <Setter Property="BackgroundColor" Value="{StaticResource MyDarkBlue}" />
+            <Setter Property="Margin" Value="0,4,0,10" />
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="HeightRequest" Value="48" />
+            <Setter Property="BackgroundColor" Value="{StaticResource MyOrange}" />
+            <Setter Property="TextColor" Value="{StaticResource MyDarkBlue}" />
+            <Setter Property="Padding" Value="16,10" />
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="BackgroundColor" Value="{StaticResource MyLightBlue}" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+        </Style>
+
+        <Style x:Key="KeyValueRow" TargetType="Grid">
+            <Setter Property="ColumnDefinitions" Value="Auto,*" />
+            <Setter Property="ColumnSpacing" Value="12" />
+            <Setter Property="Padding" Value="0,2" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <Grid Padding="16,8" 
+      RowDefinitions="Auto,Auto,Auto">
+
+            <Grid IsVisible="{Binding IsLoggedIn}" RowDefinitions="Auto, Auto, Auto">
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Profilod" Style="{StaticResource SectionTitle}" />
+                    <Label Text="Kezeld az adataidat, és nézd meg az online státuszod."
+                           Style="{StaticResource MetaLabel}" />
+                </VerticalStackLayout>
+
+                <Frame Grid.Row="1" Style="{StaticResource CardFrame}">
+                    <Grid ColumnDefinitions="Auto,*"
+                          RowDefinitions="Auto"
+                          ColumnSpacing="16" RowSpacing="6">
+
+                        <Frame WidthRequest="64" HeightRequest="64"
+                               CornerRadius="32" HasShadow="False"
+                               BackgroundColor="{StaticResource MyLightBlue}" Padding="0">
+                            <Image Source="profile.png"/>
+                        </Frame>
+                        <Label Grid.Column="1"
+                               Text="{Binding Username}"
+                               FontAttributes="Bold" FontSize="20" TextColor="White" 
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Frame>
+
+                <Frame Grid.Row="2" Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Fiók beállítások" 
+                       TextColor="White" FontAttributes="Bold" FontSize="18" />
+
+                        <Button Text="Kijelentkezés"
+                                Command="{Binding LogoutCommand}"
+                                Style="{StaticResource SecondaryButton}" /> 
+
+                        <Label Text="Figyelem: kijelentkezés után az online meccsek nem érhetők el."
+                               Style="{StaticResource MetaLabel}" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <Grid Grid.RowSpan="3"
+                  RowDefinitions="Auto, Auto"
+                  IsVisible="{Binding IsLoggedIn, Converter={StaticResource BoolToBoolConverter}, ConverterParameter=Invert}">
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Vendég mód" Style="{StaticResource SectionTitle}" />
+                    <Label Text="Jelenleg nem vagy bejelentkezve. Bejelentkezés nélkül az online meccsek és nem érhetők el."
+                           Style="{StaticResource MetaLabel}" />
+                </VerticalStackLayout>
+
+                <Frame Grid.Row="1" Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Lépj be a teljes élményért!"
+                               TextColor="White"
+                               FontAttributes="Bold" FontSize="18" />
+
+                        <Button Text="Bejelentkezés"
+                                Command="{Binding NavigateToLoginCommand}"
+                                Style="{StaticResource PrimaryButton}" />
+
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Még nincs fiókod?" Style="{StaticResource MetaLabel}" VerticalOptions="Center"/>
+                            <Button Grid.Column="1" Text="Regisztráció"
+                                    Command="{Binding NavigateToRegisterCommand}"
+                                    Style="{StaticResource SecondaryButton}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+        </Grid>
+
+    </ScrollView>
+</ContentPage>

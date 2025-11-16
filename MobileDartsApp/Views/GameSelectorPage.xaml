@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileDartsApp.Views.GameSelectorPage"
+             Title="Meccsek"             
+             Shell.BackgroundColor="{DynamicResource MyDarkBlue}"
+             Shell.TitleColor="{DynamicResource MyOrange}"
+             Shell.ForegroundColor="{DynamicResource MyOrange}"
+             BackgroundColor="{DynamicResource MyDeepDarkBlue}"
+             Padding="16">
+
+    <ContentPage.Resources>
+        <Style x:Key="H1" TargetType="Label">
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="{DynamicResource MyOrange}"/>
+        </Style>
+
+        <Style x:Key="H2" TargetType="Label">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="TextColor" Value="#CCFFFFFF"/>
+        </Style>
+
+        <Style x:Key="Card" TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="{DynamicResource MyDarkBlue}"/>
+            <Setter Property="CornerRadius" Value="24"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="HasShadow" Value="True"/>
+            <Setter Property="BorderColor" Value="#1AFFFFFF"/>
+        </Style>
+
+        <Style x:Key="PickerChip" TargetType="Picker">
+            <Setter Property="TextColor" Value="{DynamicResource MyOrange}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="BackgroundColor" Value="#1AFFFFFF"/>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{DynamicResource MyOrange}"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="CornerRadius" Value="18"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="Padding" Value="14,10"/>
+        </Style>
+
+        <Style x:Key="MetaBadge" TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="#22FFFFFF"/>
+            <Setter Property="HasShadow" Value="False"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, Auto, *" RowSpacing="10">
+        <VerticalStackLayout Grid.Row="0" Spacing="8">
+            <Label Text="Válassz egy meccset!" Style="{StaticResource H1}"/>
+            <BoxView HeightRequest="2" BackgroundColor="{DynamicResource MyOrange}" Opacity="0.3"/>
+        </VerticalStackLayout>
+     
+        <Frame Grid.Row="1"
+               Style="{StaticResource Card}"
+               IsEnabled="{Binding IsNotRefreshingData}">
+            <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                <Label Grid.Column="0" Text="Válassz Játékost:" FontSize="20" TextColor="White" VerticalOptions="Center"/>
+                <Frame Grid.Column="1" BackgroundColor="#22FFFFFF" CornerRadius="18" Padding="0" HasShadow="False">
+                    <Picker Title="Játékos"
+                                ItemsSource="{Binding Players}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedPlayer}"
+                                Style="{StaticResource PickerChip}"/>
+                </Frame>
+            </Grid>
+        </Frame>
+
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Games}"
+                        SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Style="{StaticResource Card}" Margin="0,8">
+                        <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="*, Auto" ColumnSpacing="12" RowSpacing="6">
+                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Text="{Binding Title}"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   Margin="0,0,0,10"/>
+
+                            <Frame Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource MetaBadge}"
+                                   VerticalOptions="Center"
+                                   Padding="5">
+                                <Label Text="{Binding Date, StringFormat='{0:MMMM dd, yyyy}'}"
+                                       VerticalOptions="Center"
+                                       FontSize="14"
+                                       TextColor="#E6FFFFFF"/>
+                            </Frame>
+
+                            <Button Grid.Row="1" Grid.RowSpan="2" Grid.Column="1"
+                                    Text="Választ"
+                                    Style="{StaticResource PrimaryButton}"
+                                    VerticalOptions="Center"
+                                    Command="{Binding BindingContext.ElementSelectedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                    CommandParameter="{Binding}">
+                                <Button.Shadow>
+                                    <Shadow Brush="#66000000" Opacity="0.5" Radius="12" />
+                                </Button.Shadow>
+                            </Button>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

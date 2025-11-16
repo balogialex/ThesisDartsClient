@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:MobileDartsApp.Converters"
+             x:Class="MobileDartsApp.Views.LobbyRoomPage"
+             Title="Szoba"
+             Shell.BackgroundColor="{DynamicResource MyDarkBlue}"
+             Shell.TitleColor="{DynamicResource MyOrange}"
+             Shell.ForegroundColor="{DynamicResource MyOrange}"
+             BackgroundColor="{StaticResource MyDarkBlue}"
+             Padding="10">
+    
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding LeaveLobbyCommand}"/>
+    </Shell.BackButtonBehavior>
+    
+    <ContentPage.Resources>
+        <Style x:Key="Title" TargetType="Label">
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+
+        <Style x:Key="SubTitle" TargetType="Label">
+            <Setter Property="TextColor" Value="LightSlateGray"/>
+            <Setter Property="FontAttributes" Value="Italic"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+
+        <Style x:Key="SettingsLabel" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource MyOrange}"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource MyOrange}"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+
+        <converters:BoolToImageConverter x:Key="BoolToImageConverter"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="auto, auto, auto, auto, *, auto" RowSpacing="10">
+        <VerticalStackLayout Grid.Row="0" BindingContext="{Binding LobbyData}">
+            <Label Text="Várószoba" Style="{StaticResource Title}"/>
+            <Label Text="{Binding LobbyCreator,StringFormat='{0} szobája'}" Style="{StaticResource SubTitle}"/>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" BindingContext="{Binding LobbyData}">
+            <Label Text="Mérkőzés beállításai" Style="{StaticResource Title}" FontSize="20"/>
+            <Frame BorderColor="White" BackgroundColor="#000033">
+                <VerticalStackLayout BindingContext="{Binding Settings}">
+                    <Label Text="{Binding StartScore,StringFormat='Játékmód: {0}'}" Style="{StaticResource SettingsLabel}"/>
+                    <HorizontalStackLayout HorizontalOptions="Start" Spacing="20">
+                        <Label Text="{Binding LegFormat}" Style="{StaticResource SettingsLabel}"/>
+                        <Label Text="{Binding LegCount}" Style="{StaticResource SettingsLabel}"/>
+                        <Label Text="{Binding MatchFormat}" Style="{StaticResource SettingsLabel}"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="2">
+            <Label Text="Játékosok" Style="{StaticResource Title}" FontSize="20"/>
+            <Frame BorderColor="White" BackgroundColor="#000033" Padding="10" CornerRadius="10">
+                <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,Auto,Auto" Padding="10">
+                    <Label Text="Játékos:" TextColor="White" FontSize="20" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                    <Label Text="Készen áll" TextColor="White" FontSize="20" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+
+                    <CollectionView ItemsSource="{Binding Players}" Grid.Row="1" Grid.ColumnSpan="3">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*,Auto" Padding="5">
+                                    <Label Text="{Binding PlayerName}" TextColor="White" FontSize="18" Grid.Column="0"/>
+                                    <Image Source="{Binding IsReady, Converter={StaticResource BoolToImageConverter}}" 
+                                           HeightRequest="24" WidthRequest="24" Grid.Column="1"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Frame>
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="3" ColumnDefinitions="auto,*, auto">
+            <Button Text="Kilépés" Grid.Column="0" Command="{Binding LeaveLobbyCommand}" Style="{StaticResource ButtonStyle}" BackgroundColor="Tomato"/>
+            <Button Text="Készenlét jelzése" Grid.Column="2" Command="{Binding ToggleReadyCommand}" Style="{StaticResource ButtonStyle}" BackgroundColor="Green"/>
+        </Grid>
+
+        <Frame Grid.Row="5" Padding="0" BackgroundColor="Transparent" BorderColor="Transparent">
+            <Button Text="Mérkőzés elindítása" Command="{Binding StartGameCommand}" Style="{StaticResource ButtonStyle}" 
+                    Padding="20"
+                    IsVisible="{Binding IsCreator}"/>
+        </Frame>
+    </Grid>
+</ContentPage>

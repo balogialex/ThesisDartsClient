@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
+             x:Class="MobileDartsApp.Views.VictoryPage"
+             Title="Győzelem"
+             BackgroundColor="{StaticResource MyLightBlue}"
+             Shell.ForegroundColor="{StaticResource MyOrange}"
+             Shell.TitleColor="{StaticResource MyOrange}"
+             Shell.BackgroundColor="{StaticResource MyDarkBlue}">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding NavigateToRootCommand}" />
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+        <Style x:Key="TitleLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="{StaticResource MyDarkBlue}"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="BodyLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="TextColor" Value="{StaticResource MyBlue}"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="LineBreakMode" Value="WordWrap"/>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource MyDarkBlue}"/>
+            <Setter Property="CornerRadius" Value="18"/>
+            <Setter Property="Padding" Value="22,14"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="{StaticResource MyDarkBlue}" Radius="12" Opacity="0.25" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalOptions" Value="Fill"/>
+            <Setter Property="SemanticProperties.Hint" Value="Statisztikák mentése"/>
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal"/>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="Scale" Value="0.98"/>
+                                <Setter Property="Opacity" Value="0.95"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Disabled">
+                            <VisualState.Setters>
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="BackgroundColor" Value="{StaticResource MyOrange}"/>
+            <Setter Property="TextColor" Value="{StaticResource MyDarkBlue}"/>
+            <Setter Property="SemanticProperties.Hint" Value="Vissza a lobbyba"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="{StaticResource MyLightBlue}" Offset="0.0" />
+                <GradientStop Color="#80FFFFFF" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <shapes:Ellipse
+            WidthRequest="320"
+            HeightRequest="320"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            Margin="0,10,10,0"
+            InputTransparent="True"
+            Opacity="0.25">
+            <shapes:Ellipse.Fill>
+                <RadialGradientBrush Center="0.7,0.3" Radius="0.8">
+                    <GradientStop Color="{StaticResource MyLightBlue}" Offset="0.0" />
+                    <GradientStop Color="White" Offset="1.0" />
+                </RadialGradientBrush>
+            </shapes:Ellipse.Fill>
+        </shapes:Ellipse>
+
+        <Grid Padding="22"
+              RowDefinitions="Auto,Auto,*,Auto"
+              ColumnDefinitions="*"
+              MaximumWidthRequest="520"
+              HorizontalOptions="Center"
+              VerticalOptions="Center">
+            <Border StrokeThickness="0"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 28">
+                <Border.Shadow>
+                    <Shadow Opacity="0.18" Radius="22"/>
+                </Border.Shadow>
+
+                <Grid Padding="26" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="18">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Style="{StaticResource TitleLabelStyle}"
+                               Text="Győzelem!"
+                               SemanticProperties.HeadingLevel="Level1"/>
+                        <Label Style="{StaticResource BodyLabelStyle}"
+                               Text="Gratulálunk! Szép játék volt."
+                               Margin="6,0,6,0"/>
+                    </VerticalStackLayout>
+
+                    <BoxView Grid.Row="1"
+                             HeightRequest="1"
+                             Opacity="0.15"
+                             BackgroundColor="{StaticResource MyDarkBlue}"
+                             Margin="0,8"/>
+
+                    <Label Grid.Row="2"
+                           Style="{StaticResource BodyLabelStyle}"
+                           Text="{Binding FeedBackMessage}"
+                           SemanticProperties.Description="A mérkőzés rövid összegzése"
+                           Margin="6,0,6,0"/>
+
+                    <VerticalStackLayout Grid.Row="3" Spacing="12">
+                        <Button Text="Statisztikák mentése"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Command="{Binding SaveStatisticsCommand}"
+                                IsEnabled="{Binding CanSave}"/>
+
+                        <Button Text="Vissza a lobbyba"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Command="{Binding NavigateToRootCommand}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

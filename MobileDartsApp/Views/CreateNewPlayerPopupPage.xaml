@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileDartsApp.Views.CreateNewPlayerPopupPage"
+             xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+             Title="CreateNewPlayerPopupPage">
+    <Frame BackgroundColor="White"
+           CornerRadius="10"
+           Padding="0"
+           HasShadow="True"
+           HorizontalOptions="Center"
+           VerticalOptions="Center">
+
+        <Grid HorizontalOptions="Center"
+              VerticalOptions="Center"
+              BackgroundColor="{StaticResource MyBlue}"
+              Padding="20"
+              RowSpacing="10"
+              RowDefinitions="1*,1*,1*,1*,1*">
+
+            <Label Text="Hozd létre a játékost!"
+                   TextColor="{StaticResource MyYellow}"
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   Padding="0, 10, 0, 20" 
+                   Grid.Row="0"/>
+            <Frame WidthRequest="100"
+                   HeightRequest="100"
+                   CornerRadius="100"
+                   BorderColor="Black"
+                   Padding="0"
+                   IsClippedToBounds="True"
+                   HasShadow="True"
+                   Grid.Row="1">
+                <ImageButton Source="{Binding PictureSource}"
+                             WidthRequest="100"
+                             HeightRequest="100"
+                             Aspect="AspectFill"
+                             Command="{Binding PictureSelectExecute}"/>
+            </Frame>
+
+            <Entry Placeholder="Játékos neve" 
+                   Grid.Row="2"
+                   HorizontalOptions="Center"
+                   FontSize="20"
+                   TextColor="{StaticResource MyYellow}"
+                   Text="{Binding PlayerName}"/>
+            
+            <Button Text="Létrehozás" 
+                    FontSize="18" 
+                    HorizontalOptions="Center"
+                    Grid.Row="3"
+                    BorderColor="{StaticResource MyYellow}"
+                    TextColor="{StaticResource MyYellow}"
+                    BackgroundColor="{StaticResource MyDarkBlue}"
+                    Padding="10"
+                    Command="{Binding CreateExecute}"/>
+            
+            <Label FontSize="12" 
+                   Text="{Binding StatusMessage}" 
+                   Grid.Row="4"
+                   TextColor="{StaticResource MyYellow}"/>
+
+        </Grid>
+    </Frame>
+</mopups:PopupPage>

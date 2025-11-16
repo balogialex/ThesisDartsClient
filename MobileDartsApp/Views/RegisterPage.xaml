@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileDartsApp.Views.RegisterPage"
+             Title="Regisztráció"
+             BackgroundColor="{StaticResource MyDarkBlue}"
+             Shell.BackgroundColor="{StaticResource MyDarkBlue}"
+             Shell.ForegroundColor="{StaticResource MyOrange}"
+             Shell.TitleColor="{StaticResource MyOrange}">
+
+    <ContentPage.Resources>
+        <Style x:Key="SectionTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="TextColor" Value="{StaticResource MyOrange}" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+        <Style x:Key="MetaLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+        <Style x:Key="FieldLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="TextColor" Value="{StaticResource MyYellow}" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+
+        <Style x:Key="CardFrame" TargetType="Frame">
+            <Setter Property="CornerRadius" Value="18" />
+            <Setter Property="Padding" Value="20" />
+            <Setter Property="Margin" Value="0,12" />
+            <Setter Property="BackgroundColor" Value="{StaticResource MyBlue}" />
+            <Setter Property="HasShadow" Value="True" />
+        </Style>
+
+        <Style x:Key="TextEntry" TargetType="Entry">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+            <Setter Property="HeightRequest" Value="48" />
+            <Setter Property="BackgroundColor" Value="{StaticResource MyDarkBlue}" />
+            <Setter Property="Margin" Value="0,4,0,10" />
+            <Setter Property="Keyboard" Value="Default" />
+        </Style>
+        <Style x:Key="EmailEntry" TargetType="Entry" BasedOn="{StaticResource TextEntry}">
+            <Setter Property="Keyboard" Value="Email" />
+            <Setter Property="Placeholder" Value="pl.: te@pelda.hu" />
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="HeightRequest" Value="48" />
+            <Setter Property="BackgroundColor" Value="{StaticResource MyOrange}" />
+            <Setter Property="TextColor" Value="{StaticResource MyDarkBlue}" />
+            <Setter Property="Padding" Value="16,10" />
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="BackgroundColor" Value="{StaticResource MyLightBlue}" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+        </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter Property="Color" Value="{StaticResource MyOrange}" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto,Auto,*" Padding="16,12">
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Új fiók létrehozása" Style="{StaticResource SectionTitle}" />
+                <Label Text="Hozzon létre egy új fiókot hogy tudjon online játszani!"
+                       Style="{StaticResource MetaLabel}" />
+            </VerticalStackLayout>
+
+            <Frame Grid.Row="1" Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="12">
+
+                    <Label Text="{Binding StatusMessage}"
+                           TextColor="Tomato"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+
+                    <VerticalStackLayout>
+                        <Label Text="Felhasználónév" Style="{StaticResource FieldLabel}" />
+                        <Entry Style="{StaticResource TextEntry}"
+                               Text="{Binding Username}"
+                               Placeholder="pl.: jatekos99" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label Text="Jelszó" Style="{StaticResource FieldLabel}" />
+                        <Entry Style="{StaticResource TextEntry}"
+                               Text="{Binding Password}"
+                               IsPassword="True"
+                               Placeholder="Írja be a jelszót" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label Text="Jelszó megerősítése" Style="{StaticResource FieldLabel}" />
+                        <Entry Style="{StaticResource TextEntry}"
+                               Text="{Binding ConfirmPassword}"
+                               IsPassword="True"
+                               Placeholder="Írd be a jelszót újra!" />
+                    </VerticalStackLayout>
+
+                    <Button Text="Fiók létrehozása"
+                            Command="{Binding RegisterCommand}"
+                            Style="{StaticResource PrimaryButton}" />
+
+                    <Label Text="Megjegyzés: bejelentkezés nélkül az online meccsek nem érhetők el."
+                           Style="{StaticResource MetaLabel}" />
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </ScrollView>
+</ContentPage>
